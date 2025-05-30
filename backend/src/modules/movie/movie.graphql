@@ -1,0 +1,397 @@
+type Query {
+  movieDetails(id: Int!, language: String = "en-US"): getMovieDetailsResponse
+  movieCredits(id: Int!, language: String = "en-US"): getMovieCreditsResponse
+  movieExternalIds(id: Int!): getMovieExternalIdsResponse
+  movieImages(id: Int!): getImagesResponse
+  movieVideos(id: Int!): getVideosResponse
+  movieReleaseDates(id: Int!): getReleaseDatesResponse
+  movieAccountStates(id: Int!): getMovieAccountStatesResponse @auth
+  movieRecommendations(
+    id: Int!
+    page: Int = 1
+    language: String = "en-US"
+  ): getMovieRecommendationsResponse
+  movieTranslations(
+    id: Int!
+    language: String = "en-US"
+  ): getMovieTranslationsResponse
+  MovieUpcoming(
+    page: Int = 1
+    language: String = "en-US"
+  ): getMovieUpcomingResponse
+  filterMovies(filter: Filter!, language: String = "en-US"): MovieList
+  nowPlayingMovies(
+    filter: NowPlayingFilter!
+    language: String = "en-US"
+  ): NowPlayingResponse
+  popularMovies(page: Int = 1, language: String = "en-US"): MovieList
+  topRatedMovies(page: Int = 1, language: String = "en-US"): MovieList
+  getReview(id: Int!, page: Int = 1): ReviewResponse
+  watchlist(page: Int = 1, language: String = "en-US",media_type: String = "all"): WatchListResponse @auth
+  getAlternativeTitles(id: Int!): getAlternativeTitlesResponse
+  getMovieDetailsOptions(id: Int!) : movieDetailsOptions
+  
+}
+
+type Mutation {
+  userRated(movie_id: Int!, value: Int!, media_type: MediaType!): Boolean @auth
+  userFavorite(movie_id: Int!, value: Boolean!, media_type: MediaType!): Boolean @auth
+  userWatchlist(movie_id: Int!, value: Boolean!, media_type: MediaType!): Boolean @auth
+  addReview(input: ReviewInput!): Boolean @auth
+  deleteReview(id: String!,media_type: MediaType!): Boolean @auth
+}
+
+enum MediaType {
+  movie
+  tv
+}
+type AlternativeTitle {
+  iso_3166_1: String!
+  title: String!
+  type: String
+}
+
+type getAlternativeTitlesResponse {
+  id: Int!
+  titles: [AlternativeTitle!]
+}
+type movieDetailsOptions {
+  videos:Boolean
+  credits:Boolean
+  externalIds:Boolean
+  releaseDates:Boolean
+  accountStates:Boolean
+  alternativeTitles:Boolean
+  translations:Boolean
+  backdrops:Boolean
+  logos:Boolean 
+  posters:Boolean
+  reviews:Boolean
+}
+
+input ReviewInput {
+  media_id: Int!
+  media_type: String!
+  rating: Int!
+  reviewText: String!
+  reviewDate: String!
+}
+
+input ReviewMovieInput {
+  movie_id: Int!
+  username: String!
+  content: String!
+  rating: Int!
+}
+
+type WatchListDetails {
+  media_type: String!
+  media_id: Int!
+  title: String!
+  poster_path: String
+  backdrop_path: String
+  release_date: String
+}
+
+type WatchListResponse {
+  page: Int!
+  total_results: Int!
+  total_pages: Int!
+  results: [WatchListDetails!]
+}
+
+type Review {
+  username: String!
+   rating: Int!
+  reviewText: String!
+  reviewDate: String!
+}
+
+type ReviewResult {
+  movie_id: Int!
+  review: [Review!]
+}
+
+type ReviewResponse {
+  page: Int!
+  total_pages: Int!
+  total_results: Int!
+  results: ReviewResult
+}
+
+input NowPlayingFilter {
+  page: Int
+  release_date_gte: String
+  release_date_lte: String
+}
+
+type NowPlayingResponse {
+  dates: DateRange
+  page: Int!
+  total_results: Int!
+  total_pages: Int!
+  results: [IMovie!]
+}
+
+directive @auth on FIELD_DEFINITION
+
+enum SortBy {
+  POPULARITY_DESC
+  POPULARITY_ASC
+  VOTE_AVERAGE_DESC
+  VOTE_AVERAGE_ASC
+  RELEASE_DATE_DESC
+  RELEASE_DATE_ASC
+  TITLE_ASC
+  TITLE_DESC
+}
+
+input Filter {
+  from: String
+  to: String
+  limit: Int!
+  allCountries: Boolean
+  country: String
+  release_type: Int
+  sortBy: SortBy
+  genres: [Int]
+  language: String
+  minimum_vote_count: Int
+  runtime: Int
+  page: Int!
+}
+
+type IMovie {
+  id: Int!
+  title: String!
+  original_title: String!
+  overview: String!
+  genre_ids: [Int!]
+  vote_average: Float!
+  vote_count: Int!
+  popularity: Float
+  adult: Boolean!
+  original_language: String!
+  poster_path: String
+  backdrop_path: String
+  video: Boolean!
+  release_date: String
+  imdb_id: String
+  budget: Int
+  revenue: Int
+  runtime: Int
+  status: String
+  tagline: String
+  homepage: String
+  youtube_key: String
+}
+
+type Genre {
+  id: Int!
+  name: String!
+}
+
+type ProductionCompany {
+  id: Int!
+  logo_path: String
+  name: String!
+  origin_country: String!
+}
+
+type ProductionCountry {
+  iso_3166_1: String!
+  name: String!
+}
+
+type SpokenLanguage {
+  english_name: String!
+  iso_639_1: String!
+  name: String!
+}
+
+type MovieList {
+  page: Int!
+  total_results: Int!
+  total_pages: Int!
+  results: [IMovie!]
+  dates: DateRange
+}
+
+type getMovieDetailsResponse {
+  id: Int!
+  title: String
+  original_title: String
+  overview: String
+  vote_average: Float
+  vote_count: Int
+  popularity: Float
+  adult: Boolean
+  original_language: String
+  poster_path: String
+  backdrop_path: String
+  video: Boolean
+  release_date: String
+  imdb_id: String
+  budget: Int
+  revenue: Int
+  runtime: Int
+  status: String
+  tagline: String
+  homepage: String
+  youtube_key: String
+  genres: [Genre]
+  production_companies: [ProductionCompany]
+  production_countries: [ProductionCountry]
+  spoken_languages: [SpokenLanguage!]
+  favorite: Boolean
+  watchlist: Boolean
+  rating: Int
+}
+
+type Cast {
+  adult: Boolean!
+  gender: Int
+  id: Int!
+  known_for_department: String
+  name: String
+  original_name: String
+  popularity: Float
+  profile_path: String
+  cast_id: String
+  character: String
+  credit_id: String
+  order: Int
+}
+
+type Crew {
+  adult: Boolean!
+  gender: Int
+  id: Int!
+  known_for_department: String!
+  name: String
+  original_name: String
+  popularity: Float
+  profile_path: String
+  credit_id: String
+  department: String
+  job: String!
+}
+
+type getMovieCreditsResponse {
+  id: Int!
+  cast: [Cast!]
+  crew: [Crew!]
+}
+
+type getMovieExternalIdsResponse {
+  id: Int!
+  imdb_id: String
+  wikidata_id: String
+  facebook_id: String
+  instagram_id: String
+  twitter_id: String
+}
+
+type Image {
+  aspect_ratio: Float!
+  height: Int!
+  iso_639_1: String
+  file_path: String!
+  vote_average: Float!
+  vote_count: Int!
+  width: Int!
+}
+
+type getImagesResponse {
+  id: Int!
+  backdrops: [Image!]
+  logos: [Image!]
+  posters: [Image!]
+}
+
+type VideoDetails {
+  iso_639_1: String
+  iso_3166_1: String
+  name: String
+  key: String
+  site: String
+  size: Int
+  type: String
+  published_at: String
+  id: String
+}
+
+type getVideosResponse {
+  id: Int!
+  results: [VideoDetails!]
+}
+
+type ReleaseDateDetails {
+  certification: String
+  descriptors: [String!]
+  note: String
+  language: String
+  release_date: String!
+  type: String!
+}
+
+type ReleaseDates {
+  name: String!
+  release_dates: [ReleaseDateDetails!]
+}
+
+type getReleaseDatesResponse {
+  id: Int!
+  results: [ReleaseDates!]
+}
+
+type Rated {
+  value: Int!
+}
+
+type RatedOrBooleanResponse {
+  rated: Rated
+  value: Boolean
+}
+
+type getMovieAccountStatesResponse {
+  id: Int!
+  rated: RatedOrBooleanResponse
+  favorite: Boolean
+  watchlist: Boolean
+}
+
+type getMovieRecommendationsResponse {
+  page: Int!
+  total_results: Int!
+  total_pages: Int!
+  results: [IMovie!]
+}
+
+type Translation {
+  language: String
+  country_code: String
+  title: String
+  tagline: String
+  overview: String
+  runtime: Int
+  homepage: String
+}
+
+type getMovieTranslationsResponse {
+  id: Int
+  translations: [Translation]
+}
+
+type getMovieUpcomingResponse {
+  dates: DateRange
+  page: Int!
+  total_results: Int!
+  total_pages: Int!
+  results: [IMovie!]
+}
+
+type DateRange {
+  maximum: String
+  minimum: String
+}

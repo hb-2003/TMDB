@@ -1,0 +1,59 @@
+import {
+  TranslationDetails,
+  GetMovieTranslationsResponse,
+} from "../../../utils/types";
+import { getSeries } from "../../helper";
+import Translation from "../../../schema/models/translation";
+import Country from "../../../schema/models/country";
+import Language from "../../../schema/models/language";
+import Titles from "../../../schema/models/titles";
+
+export const SeriesTranslationsService = async (
+  id: number | null | undefined,
+): Promise<GetMovieTranslationsResponse> => {
+  if (!id) {
+    return { id: 0, translations: [] };
+  }
+
+  try {
+    await getSeries(id);
+
+    const [translations, countries, languages, titles]: [
+      Translation[],
+      Country[],
+      Language[],
+      Titles[]
+    ] = await Promise.all([
+      Translation.findAll({ where: { movie_tv_id: id } }),
+      Country.findAll(),
+      Language.findAll(),
+      Titles.findAll({ where: { movie_tv_id: id } }),
+    ]);
+
+    if (!translations) {
+      return { id, translations: [] };
+    }
+
+    const translationsResponse: TranslationDetails[] = translations.map(
+      (translation): TranslationDetails => ({
+        language:
+          languages.find((lang) => lang.iso_639_1 === translation.language_id)
+            ?.english_name || "",
+        country_code:
+          "en-" +
+          countries.find((c) => c.id === translation.country_id)
+            ?.iso_3166_1 || "",
+        title:
+          titles.find((t) => t.country_id === translation.country_id)?.title ||
+          "Add title",
+        tagline: translation.tagline || "Add tagline",
+        overview: translation.overview || "Add overview",
+        runtime: translation.runtime || 0,
+        homepage: translation.homepage || "Add homepage",
+      })
+    );
+    return { id, translations: translationsResponse };
+  } catch (error) {
+    return { id, translations: [] };
+  }
+};

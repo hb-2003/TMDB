@@ -1,0 +1,109 @@
+/* General Styles */
+body {
+  font-family: "Arial", sans-serif;
+  background-color: white; /* Changed to white */
+  color: black; /* Changed to black */
+  margin: 0;
+  padding: 0;
+}
+
+/* Movie Container */
+.movie-container {
+  max-width: 1000px;
+  margin: auto;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+/* Backdrop */
+.backdrop {
+  margin-top: 2px;    
+  height: 50vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.8); /* Adjusted text-shadow for better visibility */
+}
+
+/* Movie Content */
+.movie-content {
+  display: flex;
+  align-items: flex-start;
+  padding: 20px;
+  background: #f0f0f0; /* Changed to a light grey */
+  border-radius: 10px;
+  margin-top: -40px;
+}
+
+/* Poster */
+.movie-poster {
+  width: 250px;
+  border-radius: 10px;
+  margin-right: 20px;
+}
+
+/* Movie Info */
+.movie-info {
+  flex: 1;
+}
+
+.movie-info h2 {
+  color: #f39c12;
+}
+
+.overview {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+/* Buttons */
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.trailer-btn,
+.favorite-btn,
+.watchlist-btn {
+  padding: 10px 15px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.trailer-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.favorite-btn {
+  background-color: #ff4757;
+  color: white;
+}
+
+.watchlist-btn {
+  background-color: #3498db;
+  color: white;
+}
+
+.trailer-btn:hover,
+.favorite-btn:hover,
+.watchlist-btn:hover {
+  opacity: 0.8;
+}
+
+.movies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px; /* Added padding for space around the grid */
+}

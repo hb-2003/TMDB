@@ -1,0 +1,135 @@
+type CrewMemberData {
+  job: String
+  department: String
+  credit_id: String
+  adult: Boolean
+  gender: Int
+  id: String
+  known_for_department: String
+  name: String
+  original_name: String
+  popularity: Float
+  profile_path: String
+}
+
+type GuestStar {
+  character: String
+  credit_id: String
+  order: Int
+  adult: Boolean
+  gender: Int
+  id: String
+  known_for_department: String
+  name: String
+  original_name: String
+  popularity: Float
+  profile_path: String
+}
+
+type EpisodeDetails {
+  air_date: String
+  crew: [CrewMemberData]
+  episode_number: Int
+  guest_stars: [GuestStar]
+  name: String
+  overview: String
+  id: Int
+  production_code: String
+  runtime: Int
+  season_number: Int
+  still_path: String
+  vote_average: Float
+  vote_count: Int
+}
+
+type CastMember {
+  adult: Boolean
+  gender: Int
+  id: Int
+  known_for_department: String
+  name: String
+  original_name: String
+  popularity: Float
+  profile_path: String
+  character: String
+  credit_id: String
+  order: Int
+}
+
+type creditsResponse {
+  id: Int!
+  cast: [CastMember]
+  crew: [CrewMemberData]
+  guest_stars: [GuestStar]
+}
+
+type externalID {
+  id: Int
+  imdb_id: String
+  freebase_mid: String
+  freebase_id: String
+  tvdb_id: Int
+  tvrage_id: Int
+  wikidata_id: String
+}
+type Image {
+  aspect_ratio: Float!
+  height: Int!
+  iso_639_1: String
+  file_path: String!
+  vote_average: Float!
+  vote_count: Int!
+  width: Int!
+}
+
+type getImagesResponse {
+  id: Int!
+  backdrops: [Image!]
+  logos: [Image!]
+  posters: [Image!]
+}
+
+type VideoDetails {
+  iso_639_1: String
+  iso_3166_1: String
+  name: String
+  key: String
+  site: String
+  size: Int
+  type: String
+  published_at: String
+  id: String
+}
+
+type getVideosResponse {
+  id: Int!
+  results: [VideoDetails!]
+}
+type TranslationDetails {
+  language: String
+  country_code: String
+  title: String
+  tagline: String
+  overview: String
+  runtime: Int
+  homepage: String
+}
+type CreditsResponse {
+  id: Int
+  cast: [CastMember]
+  crew: [CrewMemberData]
+  guest_stars: [GuestStar]
+}
+
+type getSeasonTranslationsResponse {
+  id: Int
+  translations: [TranslationDetails]
+}
+type Query {
+  episodeDetails(seriesId: Int!, seasonNumber: Int!, episodeNumber: Int!): EpisodeDetails
+  episodeCredits(seriesId: Int!, seasonNumber: Int!, episodeNumber: Int!):  creditsResponse
+  episodeExternalIds(seriesId: Int!, seasonNumber: Int!, episodeNumber: Int!): externalID
+  episodeImages(seriesId: Int!, seasonNumber: Int!, episodeNumber: Int!): getImagesResponse
+  episodeVideos(seriesId: Int!, seasonNumber: Int!, episodeNumber: Int!): getVideosResponse
+  episodeTranslations(seriesId: Int!, seasonNumber: Int!, episodeNumber: Int!): getSeasonTranslationsResponse
+}

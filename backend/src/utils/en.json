@@ -1,0 +1,18 @@
+{
+  "NOT_FOUND": "Not Found",
+  "INTERNAL_SERVER_ERROR": "Internal Server Error",
+  "UNAUTHORIZED": "Unauthorized",
+  "FORBIDDEN": "Forbidden",
+  "BAD_REQUEST": "Bad Request",
+  "INVALID_EMAIL": "Invalid email",
+  "INVALID_PASSWORD": "Invalid password",
+  "INVALID_USERNAME": "Invalid username",
+  "INVALID_NAME": "Invalid name",
+  "USER_NOT_FOUND": "User not found",
+  "USER_ALREADY_EXISTS": "User already exists",
+  "EMAIL_ALREADY_EXISTS": "Email already exists",
+  "USERNAME_ALREADY_EXISTS": "Username already exists",
+  "INVALID_CREDENTIALS": "Invalid credentials",
+  "MOVIE_NOT_FOUND": "Movie not found",
+  "JOB_NOT_FOUND": "Job not found"
+}

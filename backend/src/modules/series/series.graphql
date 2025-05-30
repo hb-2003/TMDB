@@ -1,0 +1,271 @@
+type Genre {
+  id: Int!
+  name: String!
+}
+
+type Episode {
+  id: Int!
+  name: String!
+  overview: String
+  vote_average: Float!
+  vote_count: Int!
+  air_date: String
+  episode_number: Int
+  episode_type: String
+  production_code: String
+  runtime: Int
+  season_number: Int
+  show_id: Int
+  still_path: String
+}
+
+type Network {
+  id: Int!
+  logo_path: String
+  name: String!
+  origin_country: String!
+}
+
+type ProductionCompany {
+  id: Int!
+  logo_path: String
+  name: String!
+  origin_country: String!
+}
+
+type ProductionCountry {
+  iso_3166_1: String!
+  name: String!
+}
+
+type Season {
+  air_date: String
+  episode_count: Int
+  id: Int!
+  name: String!
+  overview: String
+  poster_path: String
+  season_number: Int
+  vote_average: Float
+}
+
+type SpokenLanguage {
+  english_name: String!
+  iso_639_1: String!
+  name: String!
+}
+
+type SeriesDetails {
+  adult: Boolean
+  backdrop_path: String
+  created_by: [String]
+  episode_run_time: [Int]
+  first_air_date: String
+  genres: [Genre]
+  homepage: String
+  id: Int!
+  in_production: Boolean
+  languages: [String]
+  name: String!
+  networks: [Network]
+  number_of_episodes: Int
+  number_of_seasons: Int
+  origin_country: [String]
+  original_language: String
+  original_name: String
+  overview: String
+  popularity: Float
+  poster_path: String
+  production_companies: [ProductionCompany]
+  production_countries: [ProductionCountry]
+  seasons: [Season]
+  spoken_languages: [SpokenLanguage]
+  status: String
+  tagline: String
+  type: String
+  vote_average: Float
+  vote_count: Int
+}
+
+type Rated {
+  value: Int!
+}
+
+type RatedOrBooleanResponse {
+  rated: Rated
+  value: Boolean
+}
+
+type getSeriesAccountStatesResponse {
+  id: Int!
+  rated: RatedOrBooleanResponse
+  favorite: Boolean
+  watchlist: Boolean
+}
+
+type Cast {
+  adult: Boolean!
+  gender: Int
+  id: Int!
+  known_for_department: String
+  name: String
+  original_name: String
+  popularity: Float
+  profile_path: String
+  cast_id: String
+  character: String
+  credit_id: String
+  order: Int
+}
+
+type Crew {
+  adult: Boolean!
+  gender: Int
+  id: Int!
+  known_for_department: String!
+  name: String
+  original_name: String
+  popularity: Float
+  profile_path: String
+  credit_id: String
+  department: String
+  job: String!
+}
+
+type getSeriesCreditsResponse {
+  id: Int!
+  cast: [Cast!]
+  crew: [Crew!]
+}
+
+type ExternalIds {
+  id: Int!
+  imdb_id: String
+  freebase_mid: String
+  freebase_id: String
+  tvdb_id: Int
+  tvrage_id: Int
+  wikidata_id: String
+  facebook_id: String
+  instagram_id: String
+  twitter_id: String
+}
+type Image {
+  aspect_ratio: Float!
+  height: Int!
+  iso_639_1: String
+  file_path: String!
+  vote_average: Float!
+  vote_count: Int!
+  width: Int!
+}
+
+type getImagesResponse {
+  id: Int!
+  backdrops: [Image!]
+  logos: [Image!]
+  posters: [Image!]
+}
+
+type Series {
+  id: Int!
+  name: String!
+  original_name: String
+  overview: String
+  popularity: Float
+  poster_path: String
+  backdrop_path: String
+  first_air_date: String
+  genre_ids: [Int]
+  origin_country: [String]
+  original_language: String
+  vote_average: Float
+  vote_count: Int
+}
+
+type getSeriesListResponse {
+  page: Int!
+  results: [Series!]!
+  total_pages: Int!
+  total_results: Int!
+}
+
+type getSeriesRecommendationsResponse {
+  page: Int!
+  total_pages: Int!
+  total_results: Int!
+  results: [Series!]!
+}
+type Translation {
+  language: String
+  country_code: String
+  title: String
+  tagline: String
+  overview: String
+  runtime: Int
+  homepage: String
+}
+
+type getSeriesTranslationsResponse {
+  id: Int
+  translations: [Translation]
+}
+
+type VideoDetails {
+  iso_639_1: String
+  iso_3166_1: String
+  name: String
+  key: String
+  site: String
+  size: Int
+  type: String
+  published_at: String
+  id: String
+}
+
+type getVideosResponse {
+  id: Int!
+  results: [VideoDetails!]
+}
+
+type SeriesDetailsOptions {
+  alternativeTitles: Boolean 
+  seasons: Boolean
+  translations: Boolean
+  backdrops: Boolean
+  logos: Boolean
+  posters: Boolean
+  videos: Boolean
+  credits: Boolean
+  externalIds: Boolean
+  reviews: Boolean
+}
+input Filter {
+  from: String
+  to: String
+  limit: Int!
+  allCountries: Boolean
+  country: String
+  release_type: Int
+  sortBy: SortBy
+  genres: [Int]
+  language: String
+  minimum_vote_count: Int
+  runtime: Int
+  page: Int!
+}
+
+
+type Query {
+  SeriesDetail(id: Int!): SeriesDetails
+  SeriesAccountStates(id: Int!): getSeriesAccountStatesResponse @auth
+  SeriesCredits(id: Int!, language: String = "en-US"): getSeriesCreditsResponse
+  SeriesExternalIds(id: Int!): ExternalIds
+  SeriesImages(id: Int!): getImagesResponse
+  SeriesList(page: Int!, language: String = "en-US"): getSeriesListResponse
+  SeriesRecommendations(id: Int!, page: Int!): getSeriesRecommendationsResponse
+  SeriesTranslations(id: Int!,   language: String = "en-US"): getSeriesTranslationsResponse
+  SeriesVideos(id: Int!, language: String = "en-US"): getVideosResponse
+  SeriesDetailsOptions(id: Int!) : SeriesDetailsOptions
+  # SeriesListByFilter(filter: Filter!): getSeriesListResponse
+}

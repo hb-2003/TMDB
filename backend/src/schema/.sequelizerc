@@ -1,0 +1,9 @@
+import path from 'path';
+import sequelize from 'sequelize';
+
+export default {
+  "config": path.resolve('./build/schema/config/config.js'),
+  'models-path': path.resolve('./src/schema/models'),
+  'migrations-path': path.resolve('./build/schema/migrations'),
+  "seeders-path": path.resolve('./src/schema/seeders')
+}

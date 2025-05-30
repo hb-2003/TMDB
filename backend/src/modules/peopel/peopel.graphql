@@ -1,0 +1,61 @@
+type PersonDetail {
+  adult: Boolean
+  biography: String
+  birthday: String
+  deathday: String
+  gender: Int
+  homepage: String
+  id: Int
+  imdb_id: String
+  known_for_department: String
+  name: String
+  place_of_birth: String
+  popularity: Float
+  profile_path: String
+}
+
+
+type MediaDetail {
+  adult: Boolean
+  backdrop_path: String
+  genre_ids: [Int]
+  id: Int
+  original_language: String
+  original_title: String
+  overview: String
+  popularity: Float
+  poster_path: String
+  release_date: String
+  title: String
+  video: Boolean
+  vote_average: Float
+  vote_count: Int
+  character: String
+  credit_id: String
+  order: Int
+  media_type: String
+}
+
+type personCreditsResponse {
+  cast: [MediaDetail]
+  crew: [MediaDetail]
+  id: Int
+}
+
+type ExternalIds {
+  imdb_id: String
+  wikidata_id: String
+  facebook_id: String
+  instagram_id: String
+  tiktok_id: String
+  twitter_id: String
+  youtube_id: String
+  id: Int
+}
+
+
+type Query {
+  personDetails(id: Int!): PersonDetail
+  personCredits(id: Int!): personCreditsResponse
+  personExternalIds(id: Int!): ExternalIds
+}

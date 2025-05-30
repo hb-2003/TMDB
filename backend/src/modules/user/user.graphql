@@ -1,0 +1,87 @@
+directive @auth on FIELD_DEFINITION
+type User {
+  id: ID!
+  username: String!
+  email: String!
+  refreshtoken: String!
+}
+
+input RegisterInput {
+  username: String!
+  email: String!
+  password: String!
+  confirmPassword: String!
+}
+
+input SendVerificationEmailInput {
+  email: String!
+}
+
+input UpdatePasswordInput {
+  password: String!
+  confirmPassword: String!
+}
+
+input LoginInput {
+  username: String!
+  password: String!
+}
+
+input ResetPasswordInput {
+  email: String!
+}
+
+type RegisterResponse {
+  message: String!
+  status: Boolean!
+}
+
+type EmailVerificationResponse {
+  message: String!
+  status: Boolean!
+  token: String
+}
+
+type response {
+  message: String!
+  status: Boolean!
+}
+
+type LoginResponse {
+  token: String
+  user: User
+}
+
+type ResetPasswordResponse {
+  message: String!
+  status: Boolean!
+  token: String
+}
+
+type resetPasswordVerifyResponse {
+  message: String!
+  status: Boolean!
+  username: String
+}
+
+input ResetPasswordUpdateInput {
+  token: String!
+  username: String!
+  password: String!
+  confirmPassword: String!
+}
+
+type Query {
+  demo: String! 
+}
+
+type Mutation {
+  register(input: RegisterInput): RegisterResponse!
+  verifyEmail(token: String!): EmailVerificationResponse!
+  sendVerificationEmail(input: SendVerificationEmailInput): response!
+  login(input: LoginInput): LoginResponse!
+  resetPassword(input: ResetPasswordInput): ResetPasswordResponse!
+  resetPasswordVerify(token: String!): resetPasswordVerifyResponse!
+  resetPasswordUpdate(input: ResetPasswordUpdateInput): response!
+  refreshTokenThrowAccessToken (token: String!): String!
+}

@@ -1,0 +1,202 @@
+type Season {
+  air_date: String
+  episodes: [SeasonEpisode]
+  season_number: Int
+  show_id: Int
+  name: String
+  overview: String
+  poster_path: String
+  episode_count: Int
+}
+
+type SeasonEpisode {
+  air_date: String
+  episode_number: Int
+  episode_type: String
+  id: Int
+  name: String
+  overview: String
+  production_code: String
+  runtime: Int
+  season_number: Int
+  show_id: Int
+  still_path: String
+  vote_average: Float
+  vote_count: Int
+  crew: [CrewMember]
+  guest_stars: [GuestStar]
+}
+
+
+
+type GuestStar {
+  character: String
+  credit_id: String
+  order: Int
+  adult: Boolean
+  gender: Int
+  id: String
+  known_for_department: String
+  name: String
+  original_name: String
+  popularity: Float
+  profile_path: String
+}
+type getSeasonAccountStatesResponse {
+  id: Int!
+  rated: RatedOrBooleanResponse
+  favorite: Boolean
+  watchlist: Boolean
+}
+
+type Role {
+  credit_id: String
+  character: String
+  episode_count: Int
+}
+
+type CastMember {
+  adult: Boolean
+  gender: Int
+  id: Int
+  known_for_department: String
+  name: String
+  original_name: String
+  popularity: Float
+  profile_path: String
+  roles: [Role]
+  total_episode_count: Int
+  order: Int
+}
+
+type JobData {
+  credit_id: String
+  job: String
+  episode_count: Int
+}
+
+type CrewMemberExtended {
+  gender: Int
+  id: Int
+  adult: Boolean
+  known_for_department: String
+  name: String
+  original_name: String
+  popularity: Float
+  profile_path: String
+  credit_id: String
+  department: String
+  job: String
+  jobs: [JobData]
+  total_episode_count: Int
+}
+
+type AggregateCreditsResponse {
+  cast: [CastMember]
+  crew: [CrewMemberExtended]
+  id: Int
+}
+type CrewMember {
+  job: String
+  department: String
+  credit_id: String
+  adult: Boolean
+  gender: Int
+  id: Int
+  known_for_department: String
+  name: String
+  original_name: String
+  popularity: Float
+  profile_path: String
+}
+
+type CastMemberData {
+  adult: Boolean
+  gender: Int
+  id: Int
+  known_for_department: String
+  name: String
+  original_name: String
+  popularity: Float
+  profile_path: String
+  total_episode_count: Int
+  order: Int
+}
+
+type SeasonCreditsResponse {
+  cast: [CastMemberData]
+  crew: [CrewMember]
+  id: Int
+}
+
+type SeasonExternalIds {
+  id: Int
+  freebase_mid: String
+  freebase_id: String
+  tvdb_id: Int
+  tvrage_id: Int
+  wikidata_id: String
+}
+type Image {
+  aspect_ratio: Float!
+  height: Int!
+  iso_639_1: String
+  file_path: String!
+  vote_average: Float!
+  vote_count: Int!
+  width: Int!
+}
+
+type VideoDetails {
+  iso_639_1: String
+  iso_3166_1: String
+  name: String
+  key: String
+  site: String
+  size: Int
+  type: String
+  published_at: String
+  id: String
+}
+
+type getVideosResponse {
+  id: Int!
+  results: [VideoDetails!]
+}
+
+type getImagesResponse {
+  id: Int!
+  backdrops: [Image!]
+  logos: [Image!]
+  posters: [Image!]
+}
+
+type TranslationDetails {
+  language: String
+  country_code: String
+  title: String
+  tagline: String
+  overview: String
+  runtime: Int
+  homepage: String
+}
+
+type getSeasonTranslationsResponse {
+  id: Int
+  translations: [TranslationDetails]
+}
+type Query {
+ SeasonDetails(id: ID!, season_number: Int!): Season
+  SeasonAccountStates(id: ID!, season_number: Int!): getSeasonAccountStatesResponse @auth
+  AggregateCredits(id: ID!, season_number: Int!):  AggregateCreditsResponse
+  SeasonCredits(id: ID!, season_number: Int!): SeasonCreditsResponse
+  SeasonExternalIds(id: ID!, season_number: Int!): SeasonExternalIds
+  SeasonImages(id: ID!, season_number: Int!): getImagesResponse
+  SeasonVideos(id: ID!, season_number: Int!): getVideosResponse
+  SeasonTranslations(id: ID!, season_number: Int!): getSeasonTranslationsResponse
+}
+
+type Mutation {
+  # Define your mutation fields here if needed
+  demo: String
+}
